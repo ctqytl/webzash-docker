@@ -1,0 +1,28 @@
+version: "3"
+
+services: 
+  db: 
+    build: ./mariadb
+    image: webzash_db:dev
+    ports: 
+      - 3306
+    environment: 
+      MYSQL_DATABASE: webzash
+      MYSQL_PASSWORD: webpass
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: webuser
+    volumes: 
+      - "/tmp/webzash-data:/var/lib/mysql"
+  
+  webzash: 
+    build: ./webzash
+    image: webzash:dev
+    environment:
+      WEBZASH_HOST: db
+      WEBZASH_USER: webuser
+      WEBZASH_PASSWORD: webpass
+      WEBZASH_DB: webzash
+    ports: 
+      - "9010:9010"
+    links: 
+      - db
