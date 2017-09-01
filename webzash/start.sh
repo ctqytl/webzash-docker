@@ -3,7 +3,7 @@
 set -e
 
 # Disable test suite
-rm /var/www/webzash/app/webroot/test.php
+$(rm /var/www/webzash/app/webroot/test.php 2> /dev/null) || true;
 
 php-fpm
 # Enable nginx to access php-fpm socket

@@ -5,6 +5,7 @@ RUN	apk update && \
 	apk add --update \
         openssl \
         git \
+		php5-bcmath \
         php5-fpm \
 		php5-cli \
 		php5-mysql \
