@@ -3,6 +3,7 @@ FROM nginx:1.13-alpine
 # Install PHP the hard way :)
 RUN	apk update && \
 	apk add --update \
+		tzdata \
         openssl \
         git \
 		php5-bcmath \
@@ -20,6 +21,10 @@ RUN	apk update && \
 
 # Create www for nginx
 RUN adduser -D -u 1000 -g 'www' www
+
+# Set timezone
+RUN cp /usr/share/zoneinfo/Asia/Manila /etc/localtime
+RUN echo "Asia/Manila" >  /etc/timezone
 
 # Update nginx configs
 RUN sed -i '/include \/etc\/nginx\/conf\.d*/a   include \/etc\/nginx\/sites-enabled\/\*\;' /etc/nginx/nginx.conf && \
@@ -50,7 +55,7 @@ RUN git clone https://github.com/slywalker/cakephp-plugin-boost_cake.git app/Plu
 # Update configs
 COPY app app
 
-RUN apk del git && \
+RUN apk del git tzdata && \
     rm -rf /var/cache/apk/*
 
 COPY start.sh /var/www/webzash
